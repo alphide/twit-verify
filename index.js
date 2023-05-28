@@ -13,24 +13,35 @@ const user = new Twitter({
 });
 
 app.post('/', async (req, res) => {
-  try {
-    const username = req.body.username;
-    const targetAccount = 'VirtuosoRBLX';
-    console.log('Username:', username);
-    const followers = [];
     try {
-        followers = await user.get('followers/ids', { screen_name: targetAccount });
-    } catch (error) {
-        console.error('Error retrieving followers:', error);
-    }
-    console.log('VirtuosoRBLX:', followers);
-    const isFollowing = followers.ids.includes(username);
+      const username = req.body.username;
+      const targetAccount = 'VirtuosoRBLX';
   
-    res.json({ isFollowing });
-  } catch (error) {
-    res.json({ error: error.message });
+      const params = { screen_name: targetAccount, count: 200, skip_status: true };
+      const followers = await getAllFollowers(params);
+  
+      const isFollowing = followers.includes(username);
+  
+      res.json({ isFollowing });
+    } catch (error) {
+      res.json({ error: error.message });
+    }
+  });
+  
+  async function getAllFollowers(params) {
+    let followers = [];
+  
+    let cursor = -1;
+    do {
+      const response = await client.get('followers/list', { ...params, cursor });
+      const users = response.users || [];
+  
+      followers = followers.concat(users.map(user => user.screen_name));
+      cursor = response.next_cursor;
+    } while (cursor !== 0);
+  
+    return followers;
   }
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`App listening on port ${port}`));
+  
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`App listening on port ${port}`));
