@@ -1,37 +1,38 @@
-const Twitter = require('twitter-api-v2').TwitterApi;
+const TwitterApi = require('twitter-api-v2').TwitterApi;
 const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
 app.use(bodyParser.json());
 
-const user = new Twitter({
-  consumer_key: 'zlyG2FOaW4229TdqadJleKlxt',
-  consumer_secret: '0xahOMCJS9srUZZUqrqCu31Z72ot5BgYBPh6DLoQaS2qG8utx3',
-  access_token_key: '1542237757065633792-escQY4VCgckGXvLrsSkscFTjAtMlCj',
-  access_token_secret: 'H5LNqegV8Wcxsml6QsmbRRoPgzNQZpl2rh3Xz7dEqPCZS',
+const twitterClient = new TwitterApi({
+    appKey: 'zlyG2FOaW4229TdqadJleKlxt',
+    appSecret: '0xahOMCJS9srUZZUqrqCu31Z72ot5BgYBPh6DLoQaS2qG8utx3',
+    accessToken: '1542237757065633792-escQY4VCgckGXvLrsSkscFTjAtMlCj',
+    accessSecret: 'H5LNqegV8Wcxsml6QsmbRRoPgzNQZpl2rh3Xz7dEqPCZS',
 });
 
 app.post('/', async (req, res) => {
     const username = req.body.username;
     const targetAccount = 'VirtuosoRBLX';
+    const userId = '1542237757065633792'; // assuming this is the ID of 'VirtuosoRBLX'
+
     console.log('Username:', username);
-    const followers = await user.v2.followers(1542237757065633792)
 
-    let next_token = followers.meta.next_token
-    let flist = []
+    let flist = [];
+    let next_token;
 
-    followers.data.map(e => flist.push(e.username))
+    do {
+        const response = await twitterClient.v2.getUsersFollowing(userId, {
+            pagination_token: next_token,
+        });
 
-    while(next_token !== undefined){
+        response.data.data.forEach(e => flist.push(e.username));
+        next_token = response.meta.next_token;
 
-        const more = await user.v2.followers(userId, { asPaginator: true, pagination_token: next_token })
-        next_token =  more?.meta?.next_token
+    } while(next_token);
 
-        more.data.data.map(e => flist.push(e.username))
-    }
-
-        // Checking if the user is in the followers list
+    // Checking if the user is in the followers list
     const isUserFollower = flist.includes(username);
 
     res.json({ isUserFollower, flist });
