@@ -18,8 +18,15 @@ app.post('/', async (req, res) => {
       const targetAccount = 'VirtuosoRBLX';
   
       const params = { screen_name: targetAccount, count: 200, skip_status: true };
-      const followers = await getAllFollowers(params);
-  
+      const followers = [];
+      try{
+        followers = await getAllFollowers(params);
+      }
+      catch (error) {
+        console.error('Error retrieving followers:', error);
+      }
+      
+    
       const isFollowing = followers.includes(username);
   
       res.json({ isFollowing });
