@@ -1,14 +1,14 @@
 <?php
 
 require "vendor/autoload.php";
-use Abraham\TwitterOAuth\TwitterOAuth\TwitterOAuth;
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 $access = getenv('ACCESS');
 $access_secret = getenv('ACCESS_SECRET');
 $consumer = getenv('CONSUMER');
 $consumer_secret = getenv('CONSUMER_SECRET');
 
-$connection = new TwitterOAuth($consumer, $consumer_secret, $access, $access_secret);
+$connection = new TwitterOAuth('pWHSC5CNbsfqQG32Jp07aHG7M', 'AvLW2loHe5Hoj7U0oeBR6L3GDGtnk91PbUzTYOeyxDVGjiczMO', '1542237757065633792-escQY4VCgckGXvLrsSkscFTjAtMlCj', 'H5LNqegV8Wcxsml6QsmbRRoPgzNQZpl2rh3Xz7dEqPCZS');
 
 $data = json_decode(file_get_contents('php://input'), true);
 $username = $data["username"];
