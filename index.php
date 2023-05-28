@@ -1,7 +1,7 @@
 <?php
 
 require "vendor/autoload.php";
-require "twitteroauth/autoload.php";
+require "vendor/abraham/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 $access = getenv('ACCESS');
