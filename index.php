@@ -1,7 +1,7 @@
 <?php
 
-require "vendor/autoload.php";
-require "twitteroauth/autoload.php";
+require "./vendor/autoload.php";
+require "./twitteroauth/autoload.php";
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
