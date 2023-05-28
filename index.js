@@ -18,6 +18,7 @@ app.post('/', async (req, res) => {
     const targetAccount = 'VirtuosoRBLX';
     console.log('Username:', username);
     const followers = await user.get('followers/ids', { screen_name: targetAccount });
+    console.log('VirtuosoRBLX:', followers);
     const isFollowing = followers.ids.includes(username);
   
     res.json({ isFollowing });
