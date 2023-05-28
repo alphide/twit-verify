@@ -1,7 +1,7 @@
 <?php
 
-require "twitteroauth/autoload.php";
-use Abraham\TwitterOAuth\TwitterOAuth;
+require "vendor/autoload.php";
+use Abraham\TwitterOAuth\TwitterOAuth\TwitterOAuth;
 
 $access = getenv('ACCESS');
 $access_secret = getenv('ACCESS_SECRET');
