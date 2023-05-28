@@ -1,4 +1,4 @@
-const Twitter = require('twitter-lite');
+const Twitter = require('twitter-api-v2').TwitterApi;
 const express = require('express');
 const bodyParser = require('body-parser');
 
