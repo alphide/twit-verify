@@ -31,6 +31,12 @@ app.post('/', async (req, res) => {
     res.json({ isUserFollower, flist });
 });
 
+app.get('/:roblox_id', async (req, res) => {
+    const roblox_id = req.params.roblox_id;
+    // here, use the roblox_id to fetch the twitter name from your database or API
+    // then send the twitter name in the response
+    res.json({ twitter_name: 'fetched_twitter_name' });
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App listening on port ${port}`));
