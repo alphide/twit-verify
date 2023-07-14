@@ -31,11 +31,12 @@ app.post('/', async (req, res) => {
     res.json({ isUserFollower, flist });
 });
 
-app.get('/:roblox_id', async (req, res) => {
-    const roblox_id = req.params.roblox_id;
-    // here, use the roblox_id to fetch the twitter name from your database or API
-    // then send the twitter name in the response
-    res.json({ twitter_name: 'fetched_twitter_name' });
+app.get('/:roblox_name', async (req, res) => {
+    const roblox_username = req.params.rblx_name;
+    // Get the associated Twitter username from the userMap
+    const twitter_username = userMap[roblox_username];
+    // Send the Twitter username in the response
+    res.json({ twitter_username: twitter_username });
 });
 
 const port = process.env.PORT || 3000;
